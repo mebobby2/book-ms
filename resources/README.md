@@ -14,7 +14,8 @@
 1. ```vagrant up dev```
 2. ```vargrant ssh dev```
 3. ```cd /vagrant```
-4. ```sudo docker-compose -f docker-compose-dev.yml run feTestsLocal```
+4. Run front-end tests: ```sudo docker-compose -f docker-compose-dev.yml run feTestsLocal```
+5. Run all tests and package JAR: ```sudo docker-compose -f docker-compose-dev.yml run testsLocal```
 
 
 ## Upto
