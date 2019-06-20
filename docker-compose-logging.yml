@@ -1,0 +1,17 @@
+app:
+  image: vfarcic/books-ms
+  ports:
+    - 8080
+  links:
+    - db:db
+  environment:
+    - SERVICE_NAME=books-ms
+  log_driver: syslog
+  log_opt:
+    tag: books-ms
+
+db:
+  image: mongo
+  log_driver: syslog
+  log_opt:
+    tag: books-ms
