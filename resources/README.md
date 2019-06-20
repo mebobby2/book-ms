@@ -10,8 +10,14 @@
 ## Development
 1. ```vagrant up dev```
 
+## Tests
+1. ```vagrant up dev```
+2. ```vargrant ssh dev```
+3. ```cd /vagrant```
+4. ```sudo docker-compose -f docker-compose-dev.yml run feTestsLocal```
+
 
 ## Upto
-Page 64
+Page 70
 
-Let us enter the VM we just created and take a look what’s inside.
+Implementation of the Deployment
