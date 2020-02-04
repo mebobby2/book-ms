@@ -9,16 +9,19 @@
 
 ## Development
 1. ```vagrant up dev```
+2. ```cd /vagrant```
+3. Build the container for running tests (done once only): ```sudo docker build -f Dockerfile.test -t 10.100.198.200:5000/books-ms-tests .```
+4. Runs the pre-deployment tests and compile the Scala code: ```docker-compose -f docker-compose-dev.yml run --rm tests```
 
 ## Tests
 1. ```vagrant up dev```
 2. ```vargrant ssh dev```
 3. ```cd /vagrant```
-4. Run front-end tests: ```sudo docker-compose -f docker-compose-dev.yml run feTestsLocal```
-5. Run all tests and package JAR: ```sudo docker-compose -f docker-compose-dev.yml run testsLocal```
-
+4. Build the container for running tests (done once only): ```sudo docker build -f Dockerfile.test -t 10.100.198.200:5000/books-ms-tests .```
+5. Run front-end tests: ```sudo docker-compose -f docker-compose-dev.yml run feTestsLocal```
+6. Run all tests and package JAR: ```sudo docker-compose -f docker-compose-dev.yml run testsLocal```
 
 ## Upto
-Page 78
+Page 73
 
-Running Containers
+The second command run all the pre-deployment tests and compiled the Scala cod
