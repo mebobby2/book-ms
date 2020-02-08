@@ -5,6 +5,13 @@
     state: present
   tags: [docker]
 
+- name: Set insecured regsitry
+  copy:
+      dest: "/etc/docker/daemon.json"
+      content: |
+        { "insecure-registries": ["10.100.198.200:5000"] }
+  tags: [docker]
+
 - name: Docker is present
   apt:
     name: docker-engine

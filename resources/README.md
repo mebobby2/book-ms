@@ -43,8 +43,6 @@
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 83
+Page 84
 
-Pushing Containers to the Registry
-
-Before that: trying to bring registry up without errors. In the ms-lifecycle project
+The Checklist
