@@ -5,13 +5,6 @@
     state: present
   tags: [docker]
 
-- name: Set insecured regsitry
-  copy:
-      dest: "/etc/docker/daemon.json"
-      content: |
-        { "insecure-registries": ["10.100.198.200:5000"] }
-  tags: [docker]
-
 - name: Docker is present
   apt:
     name: docker-engine
@@ -25,6 +18,13 @@
 
 - name: Docker-py is present
   pip: name=docker-py version=1.6.0 state=present
+  tags: [docker]
+
+- name: Set insecured registry
+  copy:
+      dest: "/etc/docker/daemon.json"
+      content: |
+        { "insecure-registries": ["10.100.198.200:5000"] }
   tags: [docker]
 
 - name: Docker Compose is present
