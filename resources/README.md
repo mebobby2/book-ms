@@ -33,6 +33,10 @@
 2. ```vagrant up cd --provision```
 3. Registry is hosted at 10.100.198.200:5000
 
+## Set up Prod machine
+1. ```vagrant up prod --provision```
+2. From cd vm: ```ansible-playbook /vagrant/ansible/prod.yml -i /vagrant/ansible/hosts/prod```
+
 ## Helpful Commands
 * ```ll target/scala-2.10``` - list files in a directory. ```ll``` is an alias for ```ls -l```
 * ```sudo docker exec -it books-ms bash``` - start a bash session inside the container
@@ -43,6 +47,6 @@
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 89
+Page 95
 
-Configuring the Production Environment
+With the first production server up and running
