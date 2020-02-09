@@ -39,3 +39,9 @@
     path: /usr/local/bin/docker-compose
     mode: 0755
   tags: [docker]
+
+- name: Restart Docker (to use the new insecure registry)
+  service:
+    name: docker
+    state: restarted
+  tags: [docker]
