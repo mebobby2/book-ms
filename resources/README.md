@@ -33,9 +33,28 @@
 2. ```vagrant up cd --provision```
 3. Registry is hosted at 10.100.198.200:5000
 
-## Set up Prod machine
+## Set up Prod Machine + Deploy Microservice
 1. ```vagrant up prod --provision```
 2. From cd vm: ```ansible-playbook /vagrant/ansible/prod.yml -i /vagrant/ansible/hosts/prod```
+3. ```wget https://raw.githubusercontent.com/vfarcic/books-ms/master/docker-compose.yml```
+4. ```export DOCKER_HOST=tcp://prod:2375```
+5. ```docker-compose up -d app```
+
+## Accessing Microservice
+* ```curl -H 'Content-Type: application/json' -X PUT -d "{\"_id\": 1, \"title\": \"My First Book\", \"author\": \"John Doe\", \"description\": \"Not a very good book\"}" http://prod:$PORT/api/v1/books | jq '.'```
+* ```curl http://prod:$PORT/api/v1/books | jq '.'```
+
+## Setup Service Discovery
+1. ```vagrant up cd serv-disc-01 --provision```
+2. ```vagrant ssh serv-disc-01```
+3. Install by running these commands on serv-disc-0:
+```curl -L https://github.com/coreos/etcd/releases/download/v2.1.2/etcd-v2.1.2-linux-amd64.tar.gz -o etcd-v2.1.2-linux-amd64.tar.gz
+tar xzf etcd-v2.1.2-linux-amd64.tar.gz
+sudo mv etcd-v2.1.2-linux-amd64/etcd* /usr/local/bin
+rm -rf etcd-v2.1.2-linux-amd64*
+etcd >/tmp/etcd.log 2>&1 &
+   ```
+4. Or, run this playbook from the cd VM: ```ansible-playbook /vagrant/ansible/etcd.yml -i /vagrant/ansible/hosts/serv-disc```
 
 ## Helpful Commands
 * ```ll target/scala-2.10``` - list files in a directory. ```ll``` is an alias for ```ls -l```
@@ -47,6 +66,6 @@
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 95
+Page 119
 
-With the first production server up and running
+Setting Up Registrator
