@@ -55,7 +55,8 @@ rm -rf etcd-v2.1.2-linux-amd64*
 etcd >/tmp/etcd.log 2>&1 &
    ```
 4. Or, run this playbook from the cd VM: ```ansible-playbook /vagrant/ansible/etcd.yml -i /vagrant/ansible/hosts/serv-disc```
-4. Then run this playbook from the cd VM to set up Registrator: ```ansible-playbook /vagrant/ansible/registrator-etcd.yml -i /vagrant/ansible/hosts/serv-disc```
+5. Then run this playbook from the cd VM to set up Registrator: ```ansible-playbook /vagrant/ansible/registrator-etcd.yml -i /vagrant/ansible/hosts/serv-disc```
+6. Then run this playbook from the cd VM to set up confd: ```ansible-playbook /vagrant/ansible/confd.yml -i /vagrant/ansible/hosts/serv-disc```
 
 ## Helpful Commands
 * ```ll target/scala-2.10``` - list files in a directory.
@@ -67,6 +68,6 @@ etcd >/tmp/etcd.log 2>&1 &
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 119
+Page 128
 
-Setting Up Registrator
+Setting Up Consul
