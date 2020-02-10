@@ -71,7 +71,6 @@ For example if you place an ADD instruction towards the top above a few RUN inst
 Even within a group of COPY and ADD instructions, we should make sure to place higher those files that are less likely to change. In our example, we’re adding run.sh before the JAR file and front-end components since later are likely to change with every build. If you execute the docker build command the second time you’ll notice that Docker outputs ```---> Using cache``` in all steps. Later on, when we change the source code, Docker will continue outputting ```---> Using cache``` only until it gets to one of the last two COPY instructions (which one it will be, depends on whether we changed the JAR file or the front-end components).
 
 
-
 # apt-get
 ## no-install-recommends
 Every package in Ubuntu has a set required packages, a set of recommended packages and a set of suggested packages. The required packages are dependencies, so their installation is mandatory, but the installation of other two sets can be skipped. The recommended and suggested packages are not essential to the functioning of the package being installed. Disabling the installation of recommendations allows to save a lot of disk space.
@@ -79,3 +78,37 @@ Every package in Ubuntu has a set required packages, a set of recommended packag
 Disable recommendations temporally (for single package installation), adding the --no-install-recommends option:
 
 ```sudo apt-get install package --no-install-recommends```
+
+# Unix
+
+## Domain Sockets
+A unix domain socket is a bidirectional pipe similar to a TCP/IP socket. A server listens for and accepts connections from clients, and then can communicate with the client on the newly accepted connection. What is special about unix domain sockets is that instead of having an IP address and port number, they have a file name as their address. This allows other applications that know nothing about networking to be told to open the file and read or write and the data is sent to the server instead of to the disk.
+
+E.g. ```/var/run/docker.sock``` is a socket.
+
+The .sock extension is used by Unix domain sockets as a convention, but not as a requirement. Unix domain sockets are special files used by different processes to communicate with each other - much like TCP/IP sockets.
+
+docker.sock is the UNIX socket that Docker daemon is listening to. It's the main entry point for Docker API. It also can be TCP socket but by default for security reasons Docker defaults to use UNIX socket. Docker cli client uses this socket to execute docker commands by default. You can override these settings as well.
+
+There might be different reasons why you may need to mount Docker socket inside a container. Like launching new containers from within another container. Or for auto service discovery and Logging purposes. This increases attack surface so you should be careful if you mount docker socket inside a container there are trusted codes running inside that container otherwise you can simply compromise your host that is running docker daemon, since Docker by default launches all containers as root.
+
+Docker socket has a docker group in most installation so users within that group can run docker commands against docker socket without root permission but actual docker containers still get root permission since docker daemon runs as root effectively (it needs root permission to access namespace and cgroups).
+
+## What is the difference between authorized_keys and known_hosts file for SSH?
+The known_hosts file lets the client authenticate the server, to check that it isn't connecting to an impersonator. The authorized_keys file lets the server authenticate the user.
+
+### Server authentication
+One of the first things that happens when the SSH connection is being established is that the server sends its public key to the client, and proves (thanks to public-key cryptography) to the client that it knows the associated private key. This authenticates the server: if this part of the protocol is successful, the client knows that the server is who it claims it is.
+
+The client may check that the server is a known one, and not some rogue server trying to pass off as the right one. SSH provides only a simple mechanism to verify the server's legitimacy: it remembers servers you've already connected to, in the ~/.ssh/known_hosts file on the client machine (there's also a system-wide file /etc/ssh/known_hosts). The first time you connect to a server, you need to check by some other means that the public key presented by the server is really the public key of the server you wanted to connect to. If you have the public key of the server you're about to connect to, you can add it to ~/.ssh/known_hosts on the client manually.
+
+By the way, known_hosts can contain any type of public key supported by the SSH implementation, not just DSA (also RSA and ECDSA).
+
+Authenticating the server has to be done before you send any confidential data to it. In particular, if the user authentication involves a password, the password must not be sent to an unauthenticated server.
+
+### User authentication
+The server only lets a remote user log in if that user can prove that they have the right to access that account. Depending on the server's configuration and the user's choice, the user may present one of several forms of credentials (the list below is not exhaustive).
+
+* The user may present the password for the account that he is trying to log into; the server then verifies that the password is correct.
+* The user may present a public key and prove that he possesses the private key associated with that public key. This is exactly the same method that is used to authenticate the server, but now the user is trying to prove its identity and the server is verifying it. The login attempt is accepted if the user proves that he knows the private key and the public key is in the account's authorization list (~/.ssh/authorized_keys on the server).
+* Another type of method involves delegating part of the work of authenticating the user to the client machine. This happens in controlled environments such as enterprises, when many machines share the same accounts. The server authenticates the client machine by the same mechanism that is used the other way round, then relies on the client to authenticate the user.

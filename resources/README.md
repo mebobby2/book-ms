@@ -45,7 +45,7 @@
 * ```curl http://prod:$PORT/api/v1/books | jq '.'```
 
 ## Setup Service Discovery
-1. ```vagrant up cd serv-disc-01 --provision```
+1. ```vagrant up cd serv-disc-01 serv-disc-02 serv-disc-03```
 2. ```vagrant ssh serv-disc-01```
 3. Install by running these commands on serv-disc-0:
 ```curl -L https://github.com/coreos/etcd/releases/download/v2.1.2/etcd-v2.1.2-linux-amd64.tar.gz -o etcd-v2.1.2-linux-amd64.tar.gz
@@ -55,9 +55,10 @@ rm -rf etcd-v2.1.2-linux-amd64*
 etcd >/tmp/etcd.log 2>&1 &
    ```
 4. Or, run this playbook from the cd VM: ```ansible-playbook /vagrant/ansible/etcd.yml -i /vagrant/ansible/hosts/serv-disc```
+4. Then run this playbook from the cd VM to set up Registrator: ```ansible-playbook /vagrant/ansible/registrator-etcd.yml -i /vagrant/ansible/hosts/serv-disc```
 
 ## Helpful Commands
-* ```ll target/scala-2.10``` - list files in a directory. ```ll``` is an alias for ```ls -l```
+* ```ll target/scala-2.10``` - list files in a directory.
 * ```sudo docker exec -it books-ms bash``` - start a bash session inside the container
 * ```docker logs books-ms``` - view the logs of the container
 * ```docker rm -f books-ms books-db``` - remove running containers
