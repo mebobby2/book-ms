@@ -68,6 +68,6 @@ etcd >/tmp/etcd.log 2>&1 &
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 128
+Page 151
 
-Setting Up Consul
+Proxy Services
