@@ -69,6 +69,6 @@ etcd >/tmp/etcd.log 2>&1 &
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 161
+Page 198
 
-Automatically Configuring nginx
+Continuous Integration (CI), Delivery and Deployment (CD) Tools
