@@ -113,5 +113,20 @@ The server only lets a remote user log in if that user can prove that they have 
 * The user may present a public key and prove that he possesses the private key associated with that public key. This is exactly the same method that is used to authenticate the server, but now the user is trying to prove its identity and the server is verifying it. The login attempt is accepted if the user proves that he knows the private key and the public key is in the account's authorization list (~/.ssh/authorized_keys on the server).
 * Another type of method involves delegating part of the work of authenticating the user to the client machine. This happens in controlled environments such as enterprises, when many machines share the same accounts. The server authenticates the client machine by the same mechanism that is used the other way round, then relies on the client to authenticate the user.
 
+## SIGHUP
+The original meaning of SIGHUP was that the user had lost access to the program, and so interactive programs should die. Daemons — programs that don't interact directly with the user — have no need for this behavior and instead often reload their configuration files when they receive SIGHUP. But these are just conventions.
+
+E.g. ```docker kill -s HUP nginx``` nginx allows configuration reloads with a HUP signal.
+
 # Architecture
 * Services should be deployed on ports and, potentially, servers that are unknown to us in advance. Flexibility is the key to scalable architecture, fault tolerance, and many other concepts.
+
+# Proxies
+Apache is process based, making its performance when faced with a massive traffic less than desirable. At the same time, its resource usage skyrockets easily. If you need a server that will serve dynamic content, Apache is a great option, but should not be used as a proxy.
+
+
+That leaves us with nginx and HAProxy. If you spend some more time investigating opinions, you’ll see that both camps have an enormous number of users defending one over the other. There are areas where nginx outperforms HAProxy and others where it underperforms. There are some features that HAProxy doesn’t have and other missing in nginx. But, the truth is that both are battle-tested, both are an excellent solution, both have a huge number of users, and both are successfully used in companies that have colossal traffic. If what you’re looking for is a proxy service with load balancing, you cannot go wrong with either of them.
+
+I am slightly more inclined towards nginx due to its better (official) Docker container (for example, it allows configuration reloads with a HUP signal), option to log to stdout and the ability to include configuration files. Excluding Docker container, HAProxy made the conscious decision not to support those features due to possible performance issues they can create.
+
+However, there is one critical nginx feature that HAProxy does not support. HAProxy can drop traffic during reloads. If microservices architecture, continuous deployment, and blue-green processes are adopted, configuration reloads are very common. We can have several or even hundreds of reloads each day. No matter the reload frequency, with HAProxy there is a possibility of downtime.
