@@ -35,10 +35,11 @@
 
 ## Set up Prod Machine + Deploy Microservice
 1. ```vagrant up prod --provision```
-2. From cd vm: ```ansible-playbook /vagrant/ansible/prod.yml -i /vagrant/ansible/hosts/prod```
+2. From cd vm: ```ansible-playbook /vagrant/ansible/prod2.yml -i /vagrant/ansible/hosts/prod```
 3. ```wget https://raw.githubusercontent.com/vfarcic/books-ms/master/docker-compose.yml```
 4. ```export DOCKER_HOST=tcp://prod:2375```
 5. ```docker-compose up -d app```
+6. Visit ```http://10.100.198.201:8500/ui``` to see Consul UI
 
 ## Accessing Microservice
 * ```curl -H 'Content-Type: application/json' -X PUT -d "{\"_id\": 1, \"title\": \"My First Book\", \"author\": \"John Doe\", \"description\": \"Not a very good book\"}" http://prod:$PORT/api/v1/books | jq '.'```
