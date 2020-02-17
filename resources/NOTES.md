@@ -118,6 +118,15 @@ The original meaning of SIGHUP was that the user had lost access to the program,
 
 E.g. ```docker kill -s HUP nginx``` nginx allows configuration reloads with a HUP signal.
 
+## Nohup
+Nohup makes a program ignore the HUP signal, allowing it to run after current terminal is closed / user logged out. Nohup does not send program to background.
+
+````&``` at the end of command is related to shell job control, allowing user to continue work in current shell session.
+
+Usually nohup and & are combined to launch program which runs after logout of user and allows to continue work at current shell session.
+
+```> /dev/null 2>&1``` is to redirect stdout and stderr to /dev/null to ignore the output.
+
 # Architecture
 * Services should be deployed on ports and, potentially, servers that are unknown to us in advance. Flexibility is the key to scalable architecture, fault tolerance, and many other concepts.
 
