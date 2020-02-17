@@ -74,6 +74,8 @@ etcd >/tmp/etcd.log 2>&1 &
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 198
+Page 214
 
-Continuous Integration (CI), Delivery and Deployment (CD) Tools
+Let’s click the books-ms-ansible job
+
+Before that: Start the two jenkin nodes (cd & prod) and make sure they are connected to the jenkins server
