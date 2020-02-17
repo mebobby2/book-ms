@@ -59,6 +59,11 @@ etcd >/tmp/etcd.log 2>&1 &
 5. Then run this playbook from the cd VM to set up Registrator: ```ansible-playbook /vagrant/ansible/registrator-etcd.yml -i /vagrant/ansible/hosts/serv-disc```
 6. Then run this playbook from the cd VM to set up confd: ```ansible-playbook /vagrant/ansible/confd.yml -i /vagrant/ansible/hosts/serv-disc```
 
+## Set up Jenkins
+1. from cd vm: ```ansible-playbook /vagrant/ansible/jenkins-node.yml -i /vagrant/ansible/hosts/prod```
+2. from cd vm: ```ansible-playbook /vagrant/ansible/jenkins.yml -c local```
+3. Start the Jenkin nodes: ```wget http://10.100.198.200:8080/jnlpJars/agent.jar``` and ```java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/cd/slave-agent.jnlp```
+
 ## Helpful Commands
 * ```ll target/scala-2.10``` - list files in a directory.
 * ```sudo docker exec -it books-ms bash``` - start a bash session inside the container
