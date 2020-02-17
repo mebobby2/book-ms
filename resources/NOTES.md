@@ -135,3 +135,21 @@ However, there is one critical nginx feature that HAProxy does not support. HAPr
 * It is crucial not only to have the right process in place but also to have the scripts, configurations and the code properly located. Everything that is common to multiple projects should be centralized (as is the case with Ansible playbooks located in the vfarcic/ms-lifecycle137 repository). On the other hand, things that might be specific to a project should be stored in the repository that project resides in. Storing everything in one centralized place would introduce quite a lot of waiting time since a project team would need to request a change from the delivery team. The other extreme is just as wrong. If everything is stored in the project repositories, there would be quite a lot of duplication. Each project would need to come up with scripts to set up servers, deploy a service, and so on.
 
 * Please keep in mind that the shell module should be avoided in most cases. The idea behind Ansible is to specify the desired behavior and not the action that should be performed. Once that “desire” is run, Ansible will try to “do the right thing”. If, for example, we specify that some package should be installed, Ansible will check whether such a package already exists and do the installation only if it doesn’t. The shell module that we used, in this case, will always run, no matter the state of the system. In this particular situation, that is OK, because Docker itself will make sure that only changed layers are built. It won’t build the whole container every time. Please keep this in mind when designing your roles.
+
+* One of the main reasons companies are choosing some other tool (especially Bamboo and Team City) are their enterprise offerings. When an organization becomes big, it needs support and reliability that comes with it.
+
+## CI/CD Platforms
+### First Generation
+Operations, maintenance, monitoring, and the creation of jobs is mostly done through their UIs.
+
+### Second Generation
+Instead of defining your jobs in a centralized location, those tools would inspect your code and act depending on the type of the project. If, for example, they find build.gradle file, they would assume that your project should be tested and built using Gradle161. As the result, they would run gradle check to test your code and, if tests passed, follow it by gradle assemble to produce the artifacts. Based themselves on auto-discovery.
+
+### Third Generation
+Different approaches belong to different contexts and types of tasks. Jenkins and similar tools benefit greatly from their UIs for monitoring and visual representations of statuses. The part it fails with is the creation and maintenance of jobs. That type of tasks would be much better done through code. With Jenkins, we had the power but needed to pay the price for it in the form of maintenance effort.
+
+Combining the best of both generations, and some more. We can write a whole pipeline using a DSL. Example: Jenkins Workflow and Jenkinsfile. Newly introduced Jenkinsfile allows us to define the Workflow script inside the repository together with the code. That means that developers in charge of the project can be in control of the CI/CD pipeline as well.
+
+Overall Jenkins management is centralized while individual CI/CD pipelines are placed where they belong (together with the code that should be moved through it).
+
+Moreover, if we combine all that with the Multibranch Workflow job type, we can even fine tune the pipeline depending on the branch.
