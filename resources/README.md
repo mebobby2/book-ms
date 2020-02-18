@@ -54,7 +54,7 @@ tar xzf etcd-v2.1.2-linux-amd64.tar.gz
 sudo mv etcd-v2.1.2-linux-amd64/etcd* /usr/local/bin
 rm -rf etcd-v2.1.2-linux-amd64*
 etcd >/tmp/etcd.log 2>&1 &
-   ```
+```
 4. Or, run this playbook from the cd VM: ```ansible-playbook /vagrant/ansible/etcd.yml -i /vagrant/ansible/hosts/serv-disc```
 5. Then run this playbook from the cd VM to set up Registrator: ```ansible-playbook /vagrant/ansible/registrator-etcd.yml -i /vagrant/ansible/hosts/serv-disc```
 6. Then run this playbook from the cd VM to set up confd: ```ansible-playbook /vagrant/ansible/confd.yml -i /vagrant/ansible/hosts/serv-disc```
@@ -63,6 +63,18 @@ etcd >/tmp/etcd.log 2>&1 &
 1. from cd vm: ```ansible-playbook /vagrant/ansible/jenkins-node.yml -i /vagrant/ansible/hosts/prod```
 2. from cd vm: ```ansible-playbook /vagrant/ansible/jenkins.yml -c local```
 3. Start the Jenkin nodes: ```wget http://10.100.198.200:8080/jnlpJars/agent.jar``` and ```java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/cd/slave-agent.jnlp > /dev/null 2>&1 &```
+* Jenkins UI: ```http://10.100.198.200:8080```
+
+### Update Jenkin
+The Jenkins image was built by the author in Feb 2018. The Dockerfile specifies the latest version of Jenkins, but when it was build in 2018, the latest version then, is pretty old as of 2020... We will rebuild the image and push it to our private docker registry instead.
+1. from ```ms-lifecycle``` directory inside the ```cd``` vm
+2. ```sudo docker build -f Dockerfile.jenkins -t 10.100.198.200:5000/jenkins .```
+3. ```docker push 10.100.198.200:5000/jenkins```
+
+### First Time Password
+Jenkins will ask for the admin password on first load
+1. from cd vm: ```sudo docker exec -it container_id bash```
+2. ```cat /root/.jenkins/secrets/initialAdminPassword```
 
 ## Helpful Commands
 * ```ll target/scala-2.10``` - list files in a directory.
