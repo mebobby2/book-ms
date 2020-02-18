@@ -89,5 +89,3 @@ Jenkins will ask for the admin password on first load
 Page 214
 
 Let’s click the books-ms-ansible job
-
-Before that: fix all the Jenkin plugin installation errors: http://10.100.198.200:8080/manage. Credentials plugin is failing because the latest version is incompatible with our jenkins version. So find the version of Credentials is compatible and use that one.
