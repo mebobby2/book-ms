@@ -162,3 +162,8 @@ Combining the best of both generations, and some more. We can write a whole pipe
 Overall Jenkins management is centralized while individual CI/CD pipelines are placed where they belong (together with the code that should be moved through it).
 
 Moreover, if we combine all that with the Multibranch Workflow job type, we can even fine tune the pipeline depending on the branch.
+
+## Jenkins
+With Jenkins Workflow and Groovy DSL removes the need for deployment defined in Ansible. We’ll keep using Ansible playbooks for provisioning and configuration since those are the areas it truly shines. On the other hand, Jenkins Workflow and Groovy DSL provide much more power, flexibility, and freedom when defining the deployment process. The main difference is that Groovy is a scripting language and, therefore, provides a better syntax for this type of tasks. At the same time, its integration with Jenkins allows us to utilize some powerful features. For example, we could define five nodes with a label tests. Later on, if we specify that some Workflow instructions should be run on a tests node, Jenkins would make sure that the least utilized of those five nodes is used (or there might be a different logic depending on the way we set it up).
+
+At the same time, by using Jenkins Workflow, we’re avoiding complicated and not easy to understand XML definitions required by traditional Jenkins jobs and reducing the overall number of jobs.

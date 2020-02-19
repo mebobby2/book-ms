@@ -86,6 +86,6 @@ Jenkins will ask for the admin password on first load
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 214
+Page 229
 
-Let’s click the books-ms-ansible job
+Blue-Green Deployment
