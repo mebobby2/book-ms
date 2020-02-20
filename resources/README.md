@@ -86,6 +86,6 @@ Jenkins will ask for the admin password on first load
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 229
+Page 250
 
-Blue-Green Deployment
+Automating the Blue-Green Deployment with Jenkins Workflow
