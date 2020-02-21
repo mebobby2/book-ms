@@ -88,4 +88,6 @@ Jenkins will ask for the admin password on first load
 ## Upto
 Page 250
 
-Automating the Blue-Green Deployment with Jenkins Workflow
+Since it will take a couple of minutes until everything is set
+
+Before that: install the rest of the error plugins and figure out why jenkins cannot read /var/jenkins_home/jobs/books-ms-blue-green/config.xml to create the job
