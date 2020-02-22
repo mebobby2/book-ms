@@ -86,6 +86,6 @@ Jenkins will ask for the admin password on first load
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 250
+Page 260
 
-Since it will take a couple of minutes until everything is set
+Clustering And Scaling Services
