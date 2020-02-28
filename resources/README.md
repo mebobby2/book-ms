@@ -95,4 +95,6 @@ Page 282
 
 The output is as follows.
 
-Before that: Swarm Standalone too old to get working. Setup Docker in swarm mode instead. Refer to this: https://github.com/ruanbekker/ansible-docker-swarm/tree/master/roles
+Before that: Swarm Standalone too old to get working. Setup Docker in swarm mode instead. Refer to this: https://github.com/ruanbekker/ansible-docker-swarm/tree/master/roles.
+
+You can change the playbook to not use the swarm image and the docker-swarm-master etc to remove the flags cluster-store and cluster-advertise as these are used for classic swarm. They are left in the docker api for backwards compatibility.
