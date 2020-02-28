@@ -95,4 +95,4 @@ Page 282
 
 The output is as follows.
 
-Before that: figure out why the swarm is not set up properly. Or if it's too hard to get Swarm standalone working, maybe use Docker in swarm mode instead. Refer to this: https://github.com/ruanbekker/ansible-docker-swarm/tree/master/roles
+Before that: Swarm Standalone too old to get working. Setup Docker in swarm mode instead. Refer to this: https://github.com/ruanbekker/ansible-docker-swarm/tree/master/roles
