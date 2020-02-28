@@ -76,6 +76,11 @@ Jenkins will ask for the admin password on first load
 1. from cd vm: ```sudo docker exec -it container_id bash```
 2. ```cat /root/.jenkins/secrets/initialAdminPassword```
 
+## Docker Swarm
+1. ```vagrant up cd swarm-master swarm-node-1 swarm-node-2```
+2. ```vagrant ssh cd```
+3. ```ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod```
+
 ## Helpful Commands
 * ```ll target/scala-2.10``` - list files in a directory.
 * ```sudo docker exec -it books-ms bash``` - start a bash session inside the container
@@ -86,6 +91,8 @@ Jenkins will ask for the admin password on first load
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 278
+Page 282
 
-Setting Up Docker Swarm
+The output is as follows.
+
+Before that: figure out why the swarm is not set up properly
