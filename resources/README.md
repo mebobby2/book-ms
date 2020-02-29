@@ -91,6 +91,6 @@ Jenkins will ask for the admin password on first load
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 282
+Page 283
 
-The output is as follows.
+Deploying with Docker Swarm
