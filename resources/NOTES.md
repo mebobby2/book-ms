@@ -70,6 +70,11 @@ For example if you place an ADD instruction towards the top above a few RUN inst
 
 Even within a group of COPY and ADD instructions, we should make sure to place higher those files that are less likely to change. In our example, we’re adding run.sh before the JAR file and front-end components since later are likely to change with every build. If you execute the docker build command the second time you’ll notice that Docker outputs ```---> Using cache``` in all steps. Later on, when we change the source code, Docker will continue outputting ```---> Using cache``` only until it gets to one of the last two COPY instructions (which one it will be, depends on whether we changed the JAR file or the front-end components).
 
+## Networks vs Links
+Links have been replaced by networks. Docker describes them as a legacy feature that you should avoid using. You can safely remove the link and the two containers will be able to refer to each other by their service name (or container_name).
+
+With compose, links do have a side effect of creating an implied dependency. You should replace this with a more explicit depends_on section so that the app doesn't attempt to run without or before redis starts.
+
 
 # apt-get
 ## no-install-recommends
