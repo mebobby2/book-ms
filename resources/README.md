@@ -79,10 +79,11 @@ Jenkins will ask for the admin password on first load
 ## Docker Swarm
 1. ```vagrant up cd swarm-master swarm-node-1 swarm-node-2```
 2. ```vagrant ssh cd```
-3. ```ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod```
-4. ```docker network create --driver overlay books-ms-nw```
-5. ```docker service create --name books-ms-db --network books-ms-nw --publish 27017:27017 mongo```
-6. ```docker service create --name books-ms-app --network books-ms-nw --publish 8080:8080 --env SERVICE_NAME=books-ms --env DB_HOST=books-ms-db 10.100.198.200:5000/books-ms```
+3. Provision servers: ```ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod```
+4. Create network overlay: ```docker network create --driver overlay books-ms-nw```
+5. Deploy db: ```docker service create --name books-ms-db --network books-ms-nw --publish 27017:27017 --reserve-cpu=0.5 mongo```
+6. Deploy app: ```docker service create --name books-ms-app --network books-ms-nw --publish 8080:8080 --env SERVICE_NAME=books-ms --env DB_HOST=books-ms-db 10.100.198.200:5000/books-ms```
+7. Scale service: ```docker service scale books-ms-app=3```
 
 ### Why can't we use docker-compose?
 Docker-compose requires version 1.25 of docker API to deploy to a swarm, which uses e.g. ```docker stack deploy --compose-file docker-compose.yml``` commands. We are using 1.24, and can't upgrade because we are on an older version of Ubuntu. Hence, we have to switch to using manual deployments using ```docker service``` commands.
@@ -97,6 +98,6 @@ Docker-compose requires version 1.25 of docker API to deploy to a swarm, which u
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 284
+Page 296
 
-As we can see, both containers are running on
+We can also use memory as a constraint.
