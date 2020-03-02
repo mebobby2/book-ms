@@ -75,6 +75,12 @@ Links have been replaced by networks. Docker describes them as a legacy feature 
 
 With compose, links do have a side effect of creating an implied dependency. You should replace this with a more explicit depends_on section so that the app doesn't attempt to run without or before redis starts.
 
+If we don't use Networks or Links, we can always use a proxy service (such as nginx, HAProxy, etc). However, for databases, it does not expose any ports to the outside world. A good practice is to expose only ports of services that are publicly accessible. Hence a proxy won't help us here. We need to use a network overlay here so we can access the database using the network layer (IP and NATs) instead of the application layer (service discovery). The network layer handles this automatically whereas if we use service discovery, we have to build it into the service (whether as custom code or a library).
+
+With networks, there is no more need for proxy services to connect containers internally. That is not to say that proxy is not useful, but that we should use a proxy as a public interface towards our services and networking for connecting containers that form a logical group. Docker networking and proxy services have different advantages and should be used for different use cases. Proxy services provide load balancing and can control the access to our services. Docker networking is a convenient way to connect separate containers that form a single service and reside on the same network. A typical use case for Docker networking would be a service that requires a connection to a database. We can connect those two through networking. Furthermore, the service itself might need to be scaled and have multiple instances running. A proxy service with load balancer should fulfill that requirement. Finally, other services might need to access this service. Since we want to take advantage of load balancing, that access should also be through a proxy.
+
+In other words, all communication between containers that compose a single service is done through networking while the communication between services is performed through the proxy.
+
 
 # apt-get
 ## no-install-recommends
