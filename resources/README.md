@@ -102,4 +102,4 @@ Page 299
 
 The two playbooks deployed the familiar Jenkins instance with two nodes
 
-before that: figure out why we can't start the jenkins node in swarm-master
+before that: figure out why we can't start the jenkins node in swarm-master. Seems like the slave is trying to connect to port 54442, but jenkins server port is 50000
