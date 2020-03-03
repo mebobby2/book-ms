@@ -163,7 +163,7 @@ However, there is one critical nginx feature that HAProxy does not support. HAPr
 Operations, maintenance, monitoring, and the creation of jobs is mostly done through their UIs.
 
 ### Second Generation
-Instead of defining your jobs in a centralized location, those tools would inspect your code and act depending on the type of the project. If, for example, they find build.gradle file, they would assume that your project should be tested and built using Gradle161. As the result, they would run gradle check to test your code and, if tests passed, follow it by gradle assemble to produce the artifacts. Based themselves on auto-discovery.
+Instead of defining your jobs in a centralized location, those tools would inspect your code and act depending on the type of the project. If, for example, they find build.gradle file, they would assume that your project should be tested and built using Gradle. As the result, they would run gradle check to test your code and, if tests passed, follow it by gradle assemble to produce the artifacts. Based themselves on auto-discovery.
 
 ### Third Generation
 Different approaches belong to different contexts and types of tasks. Jenkins and similar tools benefit greatly from their UIs for monitoring and visual representations of statuses. The part it fails with is the creation and maintenance of jobs. That type of tasks would be much better done through code. With Jenkins, we had the power but needed to pay the price for it in the form of maintenance effort.

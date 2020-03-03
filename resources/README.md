@@ -60,8 +60,8 @@ etcd >/tmp/etcd.log 2>&1 &
 6. Then run this playbook from the cd VM to set up confd: ```ansible-playbook /vagrant/ansible/confd.yml -i /vagrant/ansible/hosts/serv-disc```
 
 ## Set up Jenkins
-1. from cd vm: ```ansible-playbook /vagrant/ansible/jenkins-node.yml -i /vagrant/ansible/hosts/prod```
-2. from cd vm: ```ansible-playbook /vagrant/ansible/jenkins.yml -c local```
+1. from cd vm, provision the jenkin nodes: ```ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod```
+2. from cd vm, provision the jenkins server: ```ansible-playbook /vagrant/ansible/jenkins.yml -c local```
 3. Start the Jenkin nodes: ```wget http://10.100.198.200:8080/jnlpJars/agent.jar``` and ```java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/cd/slave-agent.jnlp > /dev/null 2>&1 &```
 * Jenkins UI: ```http://10.100.198.200:8080```
 
@@ -81,7 +81,7 @@ Jenkins will ask for the admin password on first load
 2. ```vagrant ssh cd```
 3. Provision servers: ```ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod```
 4. Create network overlay: ```docker network create --driver overlay books-ms-nw```
-5. Deploy db: ```docker service create --name books-ms-db --network books-ms-nw --publish 27017:27017 --reserve-cpu=0.5 mongo```
+5. Deploy db: ```docker service create --name books-ms-db --network books-ms-nw --publish 27017:27017 --reserve-cpu=0.5 --reserve-memory=1GB mongo```
 6. Deploy app: ```docker service create --name books-ms-app --network books-ms-nw --publish 8080:8080 --env SERVICE_NAME=books-ms --env DB_HOST=books-ms-db 10.100.198.200:5000/books-ms```
 7. Scale service: ```docker service scale books-ms-app=3```
 
@@ -98,6 +98,8 @@ Docker-compose requires version 1.25 of docker API to deploy to a swarm, which u
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 296
+Page 299
 
-We can also use memory as a constraint.
+The two playbooks deployed the familiar Jenkins instance with two nodes
+
+before that: figure out why we can't start the jenkins node in swarm-master
