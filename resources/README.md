@@ -60,10 +60,21 @@ etcd >/tmp/etcd.log 2>&1 &
 6. Then run this playbook from the cd VM to set up confd: ```ansible-playbook /vagrant/ansible/confd.yml -i /vagrant/ansible/hosts/serv-disc```
 
 ## Set up Jenkins
-1. from cd vm, provision the jenkin nodes: ```ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod```
-2. from cd vm, provision the jenkins server: ```ansible-playbook /vagrant/ansible/jenkins.yml -c local```
-3. Start the Jenkin nodes: ```wget http://10.100.198.200:8080/jnlpJars/agent.jar``` and ```java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/cd/slave-agent.jnlp > /dev/null 2>&1 &```. (This is assuming the agent's Launch Method is set to 'Launch agent by connecting it to the master')
+
+### Server
+1. from cd vm, provision the jenkins server: ```ansible-playbook /vagrant/ansible/jenkins.yml -c local```
 * Jenkins UI: ```http://10.100.198.200:8080```
+
+### Node: swarm-master
+1. From cd vm, provision the jenkin nodes: ```ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod```
+2. From swarm-master vm, ```wget http://10.100.198.200:8080/jnlpJars/agent.jar```
+3. From swarm-master, run this command as the *ubuntu* user: ```java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/swarm-master/slave-agent.jnlp -workDir "/data/jenkins_slaves/swarm-master" > /dev/null 2>&1 &```. (This is assuming the agent's Launch Method is set to 'Launch agent by connecting it to the master')
+* Fix the port for inbound agents: Manage Jenkins -> Configure Global Security -> TCP port for inbound agents. Set it to Fixed and port 50000
+
+### Node: prod
+1. From cd vm: ```ansible-playbook /vagrant/ansible/jenkins-node.yml -i /vagrant/ansible/hosts/prod```
+2. From prod vm, ```wget http://10.100.198.200:8080/jnlpJars/agent.jar```
+3. Start the Jenkin nodes: ```java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/prod/slave-agent.jnlp -workDir "/data/jenkins_slaves/cd" > /dev/null 2>&1 &```. (This is assuming the agent's Launch Method is set to 'Launch agent by connecting it to the master')
 
 ### Update Jenkin
 The Jenkins image was built by the author in Feb 2018. The Dockerfile specifies the latest version of Jenkins, but when it was build in 2018, the latest version then, is pretty old as of 2020... We will rebuild the image and push it to our private docker registry instead.
@@ -101,5 +112,3 @@ Docker-compose requires version 1.25 of docker API to deploy to a swarm, which u
 Page 299
 
 The two playbooks deployed the familiar Jenkins instance with two nodes
-
-before that: figure out why we can't start the jenkins node in swarm-master. Seems like the slave is trying to connect to port 54442, but jenkins server port is 50000
