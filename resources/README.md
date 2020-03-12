@@ -113,6 +113,8 @@ Docker-compose requires version 1.25 of docker API to deploy to a swarm, which u
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 299
+Page 305
 
-The two playbooks deployed the familiar Jenkins instance with two nodes
+The Second Run of the Swarm Deployment Playbook
+
+Before that: Automate workflow-util.groovy to get the Jenkensfile wo
