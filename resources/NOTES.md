@@ -81,6 +81,9 @@ With networks, there is no more need for proxy services to connect containers in
 
 In other words, all communication between containers that compose a single service is done through networking while the communication between services is performed through the proxy.
 
+## Swarm Mode Routing
+Good read on how docker services uses the ingress routing mesh to load balance instances: https://docs.docker.com/engine/swarm/ingress
+
 
 # apt-get
 ## no-install-recommends
