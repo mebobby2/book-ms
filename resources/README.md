@@ -117,4 +117,4 @@ Page 305
 
 The Second Run of the Swarm Deployment Playbook
 
-Before that: Automate workflow-util.groovy to get the Jenkensfile wo
+Before that: Automate workflow-util.groovy to get the Jenkensfile https://github.com/vfarcic/books-ms/blob/swarm/Jenkinsfile working
