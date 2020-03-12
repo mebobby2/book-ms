@@ -99,6 +99,10 @@ Jenkins will ask for the admin password on first load
 ### Why can't we use docker-compose?
 Docker-compose requires version 1.25 of docker API to deploy to a swarm, which uses e.g. ```docker stack deploy --compose-file docker-compose.yml``` commands. We are using 1.24, and can't upgrade because we are on an older version of Ubuntu. Hence, we have to switch to using manual deployments using ```docker service``` commands.
 
+## Test Microservice
+1. ```curl http://swarm-master/api/v1/books  | jq '.'```
+2. ```curl -H 'Content-Type: application/json' -X PUT -d "{\"_id\": 1, \"title\": \"My First Book\", \"author\": \"John Doe\", \"description\": \"Not a very good book\"}" http://swarm-master/api/v1/books | jq '.'```
+
 ## Helpful Commands
 * ```ll target/scala-2.10``` - list files in a directory.
 * ```sudo docker exec -it books-ms bash``` - start a bash session inside the container
