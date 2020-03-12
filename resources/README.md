@@ -94,14 +94,14 @@ Jenkins will ask for the admin password on first load
 4. Create network overlay: ```docker network create --driver overlay books-ms-nw```
 5. Deploy db: ```docker service create --name books-ms-db --network books-ms-nw --publish 27017:27017 --reserve-cpu=0.5 --reserve-memory=1GB mongo```
 6. Deploy app: ```docker service create --name books-ms-app --network books-ms-nw --publish 8080:8080 --env SERVICE_NAME=books-ms --env DB_HOST=books-ms-db 10.100.198.200:5000/books-ms```
-7. Scale service: ```docker service scale books-ms-app=3```
+7. Scale service: ``` ```
 
 ### Why can't we use docker-compose?
 Docker-compose requires version 1.25 of docker API to deploy to a swarm, which uses e.g. ```docker stack deploy --compose-file docker-compose.yml``` commands. We are using 1.24, and can't upgrade because we are on an older version of Ubuntu. Hence, we have to switch to using manual deployments using ```docker service``` commands.
 
 ## Test Microservice
 1. ```curl http://swarm-master/api/v1/books  | jq '.'```
-2. ```curl -H 'Content-Type: application/json' -X PUT -d "{\"_id\": 1, \"title\": \"My First Book\", \"author\": \"John Doe\", \"description\": \"Not a very good book\"}" http://swarm-master/api/v1/books | jq '.'```
+2. ```curl -H 'Content-Type: application/json' -X PUT -d "{\"_id\": 1, \"title\": \"My First Book\", \"author\": \"John Doe\", \"description\": \"Not a very good book\"}" http://swarm-master:8080/api/v1/books | jq '.'```
 
 ## Helpful Commands
 * ```ll target/scala-2.10``` - list files in a directory.
@@ -117,6 +117,4 @@ Page 305
 
 The Second Run of the Swarm Deployment Playbook
 
-Before that: Automate workflow-util.groovy to get the Jenkensfile https://github.com/vfarcic/books-ms/blob/swarm/Jenkinsfile  working. Stuck in the problems where
-1. Failing at stage ```Run pre-integration tests```. Trying to connect to http://10.100.192.200:32768/api/v1/books where the port should be 8080.
-2. ```docker service create --name ${serviceName}-green --network ${serviceName}-nw --publish 8080:8080 --env SERVICE_NAME=${serviceName}-green --env DB_HOST=${serviceName}-db 10.100.198.200:5000/${serviceName}``` is failing because port '8080' is already use by {serviceName}-blue for the second deployment (The Green deployment). Look into ```docker service update``` using the arguments --publish-add to try to do something.
+Before that: Automate workflow-util.groovy to get the Jenkensfile https://github.com/vfarcic/books-ms/blob/swarm/Jenkinsfile  working. Stuck in the problem where ```docker service create --name ${serviceName}-green --network ${serviceName}-nw --publish 8080:8080 --env SERVICE_NAME=${serviceName}-green --env DB_HOST=${serviceName}-db 10.100.198.200:5000/${serviceName}``` is failing because port '8080' is already use by {serviceName}-blue for the second deployment (The Green deployment). Look into ```docker service update``` using the arguments --publish-add to try to do something.
