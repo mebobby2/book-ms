@@ -118,3 +118,10 @@ Page 305
 The Second Run of the Swarm Deployment Playbook
 
 Before that: Automate workflow-util.groovy to get the Jenkensfile https://github.com/vfarcic/books-ms/blob/swarm/Jenkinsfile  working. Stuck in the problem where ```docker service create --name ${serviceName}-green --network ${serviceName}-nw --publish 8080:8080 --env SERVICE_NAME=${serviceName}-green --env DB_HOST=${serviceName}-db 10.100.198.200:5000/${serviceName}``` is failing because port '8080' is already use by {serviceName}-blue for the second deployment (The Green deployment). Look into ```docker service update``` using the arguments --publish-add to try to do something.
+
+Steps for testing:
+1. vagrant up cd swarm-master swarm-node-1 swarm-node-2 --provision
+2. cd: ansible-playbook /vagrant/ansible/jenkins.yml -c local
+3. cd: ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod
+4. swarm-master: java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/swarm-master/slave-agent.jnlp -workDir "/data/jenkins_slaves/swarm-master" > /dev/null 2>&1 &
+5. http://10.100.198.200:8080, then build books-ms-swarm
