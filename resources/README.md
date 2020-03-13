@@ -125,3 +125,6 @@ Steps for testing:
 3. cd: ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod
 4. swarm-master: java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/swarm-master/slave-agent.jnlp -workDir "/data/jenkins_slaves/swarm-master" > /dev/null 2>&1 &
 5. http://10.100.198.200:8080, then build books-ms-swarm
+
+Before that:
+Figure out why mongodb cannot be started: Please make at least 3379MB available in /data/db/journal or use --smallfiles
