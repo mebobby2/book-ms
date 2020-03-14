@@ -122,9 +122,7 @@ Before that: Automate workflow-util.groovy to get the Jenkensfile https://github
 Steps for testing:
 1. vagrant up cd swarm-master swarm-node-1 swarm-node-2 --provision
 2. cd: ansible-playbook /vagrant/ansible/jenkins.yml -c local
-3. cd: ansible-playbook /vagrant/ansible/jenkins-node-swarm.yml -i /vagrant/ansible/hosts/prod
-4. swarm-master: java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/swarm-master/slave-agent.jnlp -workDir "/data/jenkins_slaves/swarm-master" > /dev/null 2>&1 &
-5. http://10.100.198.200:8080, then build books-ms-swarm
+3. swarm-master: java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/swarm-master/slave-agent.jnlp -workDir "/data/jenkins_slaves/swarm-master" > /dev/null 2>&1 &
+4. http://10.100.198.200:8080, then build books-ms-swarm
 
-Before that:
-Figure out why mongodb cannot be started: Please make at least 3379MB available in /data/db/journal or use --smallfiles
+Before that: figure out why ```docker service update --publish-rm 0:8080 ${serviceName}-${nextColor}``` in Stage stop is giving EOF error
