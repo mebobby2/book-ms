@@ -101,7 +101,7 @@ Docker-compose requires version 1.25 of docker API to deploy to a swarm, which u
 
 ## Test Microservice
 1. ```curl http://swarm-master/api/v1/books  | jq '.'```
-2. ```curl -H 'Content-Type: application/json' -X PUT -d "{\"_id\": 1, \"title\": \"My First Book\", \"author\": \"John Doe\", \"description\": \"Not a very good book\"}" http://swarm-master:8080/api/v1/books | jq '.'```
+2. ```curl -H 'Content-Type: application/json' -X PUT -d "{\"_id\": 1, \"title\": \"My First Book\", \"author\": \"John Doe\", \"description\": \"Not a very good book\"}" http://swarm-master/api/v1/books | jq '.'```
 
 ## Helpful Commands
 * ```ll target/scala-2.10``` - list files in a directory.
@@ -122,7 +122,10 @@ Before that: Automate workflow-util.groovy to get the Jenkensfile https://github
 Steps for testing:
 1. vagrant up cd swarm-master swarm-node-1 swarm-node-2 --provision
 2. cd: ansible-playbook /vagrant/ansible/jenkins.yml -c local
-3. swarm-master: java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/swarm-master/slave-agent.jnlp -workDir "/data/jenkins_slaves/swarm-master" > /dev/null 2>&1 &
-4. http://10.100.198.200:8080, then build books-ms-swarm
+3. cd: ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod
+4. swarm-master: java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/swarm-master/slave-agent.jnlp -workDir "/data/jenkins_slaves/swarm-master" > /dev/null 2>&1 &
+5. http://10.100.198.200:8080, then build books-ms-swarm
 
-Before that: figure out why ```docker service update --publish-rm 0:8080 ${serviceName}-${nextColor}``` in Stage stop is giving EOF error
+6. To test: curl http://swarm-master/api/v1/books  | jq '.'
+
+Before that: Success! But figure out why books-ms can't connect to mongodb
