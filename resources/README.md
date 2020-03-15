@@ -128,4 +128,4 @@ Steps for testing:
 
 6. To test: curl http://swarm-master/api/v1/books  | jq '.'
 
-Before that: Success! But figure out why books-ms can't connect to mongodb
+Before that: Success! But figure out why books-ms can't connect to mongodb. Can connect to mongodb if set up the service manually, but doesnt seem to work when automated through the jenkins scipts
