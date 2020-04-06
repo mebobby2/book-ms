@@ -18,7 +18,7 @@
 6. Run the db: ```sudo docker run -d --name books-db mongo```
 7. Run microservice: ```sudo docker run -d --name books-ms -p 8080:8080 --link books-db:db 10.100.198.200:5000/books-ms```
 * Steps 6 & 7 can be ran using docker-compose: ```docker-compose -f docker-compose-dev.yml up -d app```
-* Push container to registry: ```docker push 10.100.198.200:5000/books-ms```
+* Push container to registry: ```sudo docker push 10.100.198.200:5000/books-ms```
 
 ## Tests
 1. ```vagrant up dev```
@@ -78,7 +78,7 @@ etcd >/tmp/etcd.log 2>&1 &
 
 ### Update Jenkin
 The Jenkins image was built by the author in Feb 2018. The Dockerfile specifies the latest version of Jenkins, but when it was build in 2018, the latest version then, is pretty old as of 2020... We will rebuild the image and push it to our private docker registry instead.
-1. from ```ms-lifecycle``` directory inside the ```cd``` vm
+1. from ```/vagrant``` directory inside the ```cd``` vm
 2. ```sudo docker build -f Dockerfile.jenkins -t 10.100.198.200:5000/jenkins .```
 3. ```docker push 10.100.198.200:5000/jenkins```
 
@@ -129,3 +129,7 @@ Steps for testing:
 6. To test: curl http://swarm-master/api/v1/books  | jq '.'
 
 Before that: Success! But figure out why books-ms can't connect to mongodb. Can connect to mongodb if set up the service manually, but doesnt seem to work when automated through the jenkins scipts. Looks like the books-ms-db container is not added into the virtual network. It is added when the service is ran from swarm-master, but not when its ran from cd vm.
+
+I think it was because docker on swarm-master and cd were different versions... cd = old docker-engine, swarm-master = new docker-ce
+
+Anyways, turns out apt.dockerproject.org repo is shutdown so I need to use download.docker.com. However, the new repo does not have docker-engine, it only has docker-ce. However, docker-ce reqires xenial and not trusty. I've upgraded to xenial but in the process I have deleted the book-ms and jenkins image from my private repo. book-ms was build and pushed but jenkins is failing to build. This is because ubuntu cosmic has reached End of Live and so I need to switch from using archive.ubuntu.com repot to old-releases.ubuntu.com following this thread: https://superuser.com/questions/1527250/apt-update-error-with-ubuntu-18-10-cosmic-version
