@@ -133,3 +133,5 @@ Before that: Success! But figure out why books-ms can't connect to mongodb. Can 
 I think it was because docker on swarm-master and cd were different versions... cd = old docker-engine, swarm-master = new docker-ce
 
 Anyways, turns out apt.dockerproject.org repo is shutdown so I need to use download.docker.com. However, the new repo does not have docker-engine, it only has docker-ce. However, docker-ce reqires xenial and not trusty. I've upgraded to xenial but in the process I have deleted the book-ms and jenkins image from my private repo. book-ms was build and pushed but jenkins is failing to build. This is because ubuntu cosmic has reached End of Live and so I need to switch from using archive.ubuntu.com repot to old-releases.ubuntu.com following this thread: https://superuser.com/questions/1527250/apt-update-error-with-ubuntu-18-10-cosmic-version
+
+Yay, building ubuntu with old packages seem to work. However, getting a 'No space left on device' error while building
