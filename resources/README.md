@@ -113,9 +113,9 @@ Docker-compose requires version 1.25 of docker API to deploy to a swarm, which u
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 305
+Page 307
 
-The Second Run of the Swarm Deployment Playbook
+Self-Healing Systems
 
 Before that: figure out why books-ms and mongo db are not added to the network overlay. Maybe something to do with different docker versions on the VMs? Maybe try to use the same versions? To do so, figure out why docker/tasks/debian isn't running on swarm nodes but runs fine on cd vm when both are using same version of ubuntu. Perhaps we need to destroy the swarm nodes and provision them again.
 
@@ -144,4 +144,4 @@ Yay, building ubuntu with old packages seem to work. However, getting a 'No spac
 'docker system prune' does not help.
 /var/lib/docker is where docker store image files. 'df -h /var/lib/docker' shows it has 10gb of total space. The disk mount is /dev/sda1. Following steps 1 & 2 on https://tvi.al/resize-sda1-disk-of-your-vagrant-virtualbox-vm/ solved this issue. The jenkins image is built and pushed into our local registry.
 
-Works! green/blue deployments work. However, running into a problem when executing commands from cd vm, the mongo db and books-ms containers are not being added to the books-ms-nw network overlay. So, same problem as outlined a few paragraphs above.
+Works! blue/green deployments work. However, running into a problem when executing commands from cd vm, the mongo db and books-ms containers are not being added to the books-ms-nw network overlay. So, same problem as outlined a few paragraphs above.
