@@ -117,6 +117,10 @@ Page 305
 
 The Second Run of the Swarm Deployment Playbook
 
+Before that: figure out why books-ms and mongo db are not added to the network overlay. Maybe something to do with different docker versions on the VMs? Maybe try to use the same versions? To do so, figure out why docker/tasks/debian isn't running on swarm nodes but runs fine on cd vm when both are using same version of ubuntu. Perhaps we need to destroy the swarm nodes and provision them again.
+
+## Battle Notes
+
 Before that: Automate workflow-util.groovy to get the Jenkensfile https://github.com/vfarcic/books-ms/blob/swarm/Jenkinsfile  working. Stuck in the problem where ```docker service create --name ${serviceName}-green --network ${serviceName}-nw --publish 8080:8080 --env SERVICE_NAME=${serviceName}-green --env DB_HOST=${serviceName}-db 10.100.198.200:5000/${serviceName}``` is failing because port '8080' is already use by {serviceName}-blue for the second deployment (The Green deployment). Look into ```docker service update``` using the arguments --publish-add to try to do something.
 
 Steps for testing:
@@ -140,4 +144,4 @@ Yay, building ubuntu with old packages seem to work. However, getting a 'No spac
 'docker system prune' does not help.
 /var/lib/docker is where docker store image files. 'df -h /var/lib/docker' shows it has 10gb of total space. The disk mount is /dev/sda1. Following steps 1 & 2 on https://tvi.al/resize-sda1-disk-of-your-vagrant-virtualbox-vm/ solved this issue. The jenkins image is built and pushed into our local registry.
 
-So now, we can resume and try to test again from step 2
+Works! green/blue deployments work. However, running into a problem when executing commands from cd vm, the mongo db and books-ms containers are not being added to the books-ms-nw network overlay. So, same problem as outlined a few paragraphs above.
