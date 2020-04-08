@@ -119,6 +119,8 @@ Setting Up the Environments
 
 Before that: figure out why books-ms and mongo db are not added to the network overlay. Maybe something to do with different docker versions on the VMs? Maybe try to use the same versions? To do so, figure out why docker/tasks/debian isn't running on swarm nodes but runs fine on cd vm when both are using same version of ubuntu. Perhaps we need to destroy the swarm nodes and provision them again.
 
+After destroying the swarm nodes, docker/tasks/debian worked! And it starts the docker correctly. However running the same script on Jenkins fails because 'systemctl start docker.service' results in a timeout. Hence, cannot test jenkins provisioning adds mongo db to the network overlay. Figure out why systemctl cannot start docker.
+
 ## Battle Notes
 
 Before that: Automate workflow-util.groovy to get the Jenkensfile https://github.com/vfarcic/books-ms/blob/swarm/Jenkinsfile  working. Stuck in the problem where ```docker service create --name ${serviceName}-green --network ${serviceName}-nw --publish 8080:8080 --env SERVICE_NAME=${serviceName}-green --env DB_HOST=${serviceName}-db 10.100.198.200:5000/${serviceName}``` is failing because port '8080' is already use by {serviceName}-blue for the second deployment (The Green deployment). Look into ```docker service update``` using the arguments --publish-add to try to do something.
