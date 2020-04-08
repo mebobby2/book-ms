@@ -113,9 +113,9 @@ Docker-compose requires version 1.25 of docker API to deploy to a swarm, which u
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 307
+Page 321
 
-Self-Healing Systems
+Setting Up the Environments
 
 Before that: figure out why books-ms and mongo db are not added to the network overlay. Maybe something to do with different docker versions on the VMs? Maybe try to use the same versions? To do so, figure out why docker/tasks/debian isn't running on swarm nodes but runs fine on cd vm when both are using same version of ubuntu. Perhaps we need to destroy the swarm nodes and provision them again.
 
