@@ -117,10 +117,6 @@ Page 321
 
 Setting Up the Environments
 
-Before that: figure out why books-ms and mongo db are not added to the network overlay. Maybe something to do with different docker versions on the VMs? Maybe try to use the same versions? To do so, figure out why docker/tasks/debian isn't running on swarm nodes but runs fine on cd vm when both are using same version of ubuntu. Perhaps we need to destroy the swarm nodes and provision them again.
-
-After destroying the swarm nodes, docker/tasks/debian worked! And it starts the docker correctly. However running the same script on Jenkins fails because 'systemctl start docker.service' results in a timeout. Hence, cannot test jenkins provisioning adds mongo db to the network overlay. Figure out why systemctl cannot start docker.
-
 ## Battle Notes
 
 Before that: Automate workflow-util.groovy to get the Jenkensfile https://github.com/vfarcic/books-ms/blob/swarm/Jenkinsfile  working. Stuck in the problem where ```docker service create --name ${serviceName}-green --network ${serviceName}-nw --publish 8080:8080 --env SERVICE_NAME=${serviceName}-green --env DB_HOST=${serviceName}-db 10.100.198.200:5000/${serviceName}``` is failing because port '8080' is already use by {serviceName}-blue for the second deployment (The Green deployment). Look into ```docker service update``` using the arguments --publish-add to try to do something.
@@ -129,6 +125,7 @@ Steps for testing:
 1. vagrant up cd swarm-master swarm-node-1 swarm-node-2 --provision
 2. cd: ansible-playbook /vagrant/ansible/jenkins.yml -c local
 3. cd: ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/prod
+3.5. Provision the swarm master as a jenkins node and download agent.jar first if swarm-master is a brand new node
 4. swarm-master: java -jar agent.jar -jnlpUrl http://10.100.198.200:8080/computer/swarm-master/slave-agent.jnlp -workDir "/data/jenkins_slaves/swarm-master" > /dev/null 2>&1 &
 5. http://10.100.198.200:8080, then build books-ms-swarm
 
@@ -147,3 +144,13 @@ Yay, building ubuntu with old packages seem to work. However, getting a 'No spac
 /var/lib/docker is where docker store image files. 'df -h /var/lib/docker' shows it has 10gb of total space. The disk mount is /dev/sda1. Following steps 1 & 2 on https://tvi.al/resize-sda1-disk-of-your-vagrant-virtualbox-vm/ solved this issue. The jenkins image is built and pushed into our local registry.
 
 Works! blue/green deployments work. However, running into a problem when executing commands from cd vm, the mongo db and books-ms containers are not being added to the books-ms-nw network overlay. So, same problem as outlined a few paragraphs above.
+
+Figured out why books-ms and mongo db are not added to the network overlay. To do with different docker versions on the VMs?
+
+So, I upgraded the docker engine on the swarm nodes. However, I forgot to update the systemd unit fields for docker, so it meant I could start docker manually with dockerd, but could not do so via 'systemctl start docker.service'. After updating the systemd unit files to use the new start command for the newer version of docker, everything worked! Running the jenkins pipeline to deploy the book-ms and mongo db worked! And mongo and book-ms were added to the same network overlay and were able to connect!
+
+THere is small issue - using DOCKER_HOST on the cd vm pointing to swarm-master gets a unable to connect error. However, if I:
+1. manually ssh into swarm-master and do 'systemctl stop docker.service' and 'systemctl start docker.service' it Works
+2. run the jenkins pipeline (which restarts docker) it works.
+
+Can't be bothered fixing this so in the meantime, just use this workaround...
