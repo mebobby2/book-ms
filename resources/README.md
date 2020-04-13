@@ -113,9 +113,9 @@ Docker-compose requires version 1.25 of docker API to deploy to a swarm, which u
 * ```docker-compose rm -f``` - remove all containers (the stop command doesn't remove them)
 
 ## Upto
-Page 321
+Page 327
 
-Setting Up the Environments
+Now that we know how easy it is to add a check in Consul,
 
 ## Battle Notes
 
