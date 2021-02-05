@@ -117,6 +117,17 @@ Page 327
 
 Now that we know how easy it is to add a check in Consul,
 
+Not following the book anymore because
+1. I've lost my old laptop where this was originally set up
+2. Too much effort to set up on new laptop
+3. Most of the tech (consul, ELK monitoring, splunk) are quite old and not worth knowing
+
+So, I'm just reading it the rest of the book for completeness.
+
+Upto: Page 375
+
+Sending Docker Log Entries to a Central LogStash Instance
+
 ## Battle Notes
 
 Before that: Automate workflow-util.groovy to get the Jenkensfile https://github.com/vfarcic/books-ms/blob/swarm/Jenkinsfile  working. Stuck in the problem where ```docker service create --name ${serviceName}-green --network ${serviceName}-nw --publish 8080:8080 --env SERVICE_NAME=${serviceName}-green --env DB_HOST=${serviceName}-db 10.100.198.200:5000/${serviceName}``` is failing because port '8080' is already use by {serviceName}-blue for the second deployment (The Green deployment). Look into ```docker service update``` using the arguments --publish-add to try to do something.
