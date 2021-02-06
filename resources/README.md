@@ -124,9 +124,7 @@ Not following the book anymore because
 
 So, I'm just reading it the rest of the book for completeness.
 
-Upto: Page 375
-
-Sending Docker Log Entries to a Central LogStash Instance
+Finished the book!
 
 ## Battle Notes
 
